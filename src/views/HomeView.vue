@@ -2,7 +2,6 @@
 
     <NavBar :isHomePage="true" />
     <div class="content">
-        <h1>:)</h1>
         <div id="inicio" class="section parallax-section">
             <div class="parallax-bg"></div>
 
