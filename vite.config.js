@@ -11,6 +11,7 @@ export default defineConfig({
     vueDevTools(),
     
   ],
+  base:'https://cxrlind7.github.io/bravo/',
     server: {
     host: true, // necesario para accesos externos
     allowedHosts: ['.loca.lt'], // permite todos los subdominios de loca.lt
