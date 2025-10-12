@@ -10,14 +10,13 @@
 
       <!-- Columna 2: Enlaces -->
       <div class="footer-col">
-        <nav class="footer-nav">
-          <a href="#inicio">Inicio</a>
-          <a href="#nosotros">Nosotros</a>
-          <a href="#empresas">Empresas</a>
-          <a href="#individual">Individual</a>
+         <nav class="footer-nav">
+          <a href="#inicio" @click.prevent="scrollToSection('inicio')">Inicio</a>
+          <a href="#about" @click.prevent="scrollToSection('about')">Nosotros</a>
+          <a href="#services" @click.prevent="scrollToSection('services')">Servicios</a>
         </nav>
         <div class="footer-legal">
-          <a href="/aviso-de-privacidad">Aviso de Privacidad</a>
+          <router-link to="/aviso-de-privacidad">Aviso de Privacidad</router-link>
         </div>
       </div>
 
@@ -39,6 +38,28 @@
   </footer>
 </template>
 
+<script setup>
+// --- CAMBIO: Se añade toda la lógica del script ---
+
+const scrollToSection = (sectionId) => {
+  const element = document.getElementById(sectionId);
+  if (!element) {
+    console.warn(`La sección "${sectionId}" no fue encontrada.`);
+    return;
+  }
+
+  // Se busca el navbar en el DOM para obtener su altura dinámicamente.
+  // Es importante que tu navbar tenga la clase 'navbar'.
+  const navbar = document.querySelector('.navbar');
+  const navbarHeight = navbar ? navbar.offsetHeight : 80; // 80px como valor por defecto
+
+  // Se calcula la posición final del scroll, restando la altura del navbar.
+  const y = element.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+
+  // Se realiza el scroll suave.
+  window.scrollTo({ top: y, behavior: 'smooth' });
+};
+</script>
 <style scoped>
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 
