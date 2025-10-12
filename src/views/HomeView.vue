@@ -1040,7 +1040,7 @@ export default {
     width: 100%;
     height: 100vh;
     /* Un poco más grande para el efecto */
-    background-image: url('/public/principal2.jpg');
+    background-image: url('/public/principal.jpg');
     /* background-position: center -7rem; */
     z-index: -1;
 }
