@@ -786,20 +786,18 @@ export default {
     }
 
     /* ===== SECCIÓN MAP - Imagen completa sin recortar ===== */
-    #map {
-        padding: 0;
-        min-height: 26vh;
-        /* Ajustado para móvil */
-    }
-
-    .background-image {
-        background-size: contain;
-        /* 👈 Imagen completa sin recortar */
-        background-position: center;
-        background-color: #1a1a1a;
-        /* Fondo para espacios vacíos */
-    }
-
+ #map {
+    padding: 0; /* Asegúrate de que el contenedor no tenga padding */
+    min-height: 30vh; /* Dale una altura mínima para que la imagen sea visible */
+  }
+  
+  .background-image {
+    /* ...tus otras propiedades como position, top, left, etc... */
+    background-size: cover; /* 👈 Este es el cambio principal */
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Ya no necesitas un background-color si la imagen siempre va a cubrir todo */
+  }
     /* ===== SECCIÓN NOSOTROS ===== */
     #about {
         padding: 2rem 1rem;
@@ -1071,31 +1069,82 @@ export default {
     margin-bottom: 1rem;
 }
 
+
+@media (max-width: 480px) {
+
+  /* ===== SECCIÓN DE INICIO (HERO) ===== */
+  /* Ajustamos el título superior para que no se vea tan grande */
+  .hero-title {
+    font-size: 1.6rem; /* Un poco más pequeño */
+    padding: 1.5rem 1rem 2rem 1rem; /* Menos padding vertical */
+  }
+  
+  /* Ajustamos el contenedor del subtítulo inferior */
+.section-content {
+    position: absolute;
+    top: 14rem;
+    left: 0;
+    right: 0;
+    /* bottom: 0; */
+    /* padding-top: 12rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
-/* Mobile Small - Ajustes adicionales */
-@media (max-width: 480px) {
-    .description {
-        font-size: 0.85rem;
-        max-height: 120px;
-    }
+  /* Compactamos el subtítulo y su línea decorativa */
+  .hero-subtitle {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero-subtitle::after {
+    width: 50px; /* Línea más corta */
+  }
 
-    .mision-box,
-    .vision-box {
-        min-width: 90%;
-    }
+  /* ===== SECCIÓN NOSOTROS ===== */
+  .description {
+    font-size: 0.85rem;
+    max-height: 120px; /* Hacemos el área de texto inicial más pequeña */
+  }
 
-    .service-card {
-        width: 10vw;
-        min-width: 260px;
-    }
+  /* ===== MISIÓN Y VISIÓN ===== */
+  /* Hacemos que cada tarjeta ocupe casi todo el ancho para un mejor enfoque */
+  .mision-box,
+  .vision-box {
+    min-width: 85vw; /* Cada tarjeta será más ancha y fácil de leer */
+  }
+  .mision-box p,
+  .vision-box p {
+    font-size: 0.9rem;
+  }
+  
+  /* ===== SECCIÓN SERVICIOS ===== */
+  .service-card {
+    width: 40vw;
+    padding: 1.5rem;
+  }
+  .service-card h3 {
+    font-size: 1.2rem;
+  }
+  .service-card p {
+    font-size: 0.9rem;
+  }
 
-    .area-card {
-        height: 300px;
-    }
+  /* ===== ÁREAS ESPECIALIZADAS ===== */
+  .area-card {
+    height: 300px; /* Hacemos las tarjetas de imagen un poco menos altas */
+  }
+  .area-card .overlay h2 {
+    font-size: 1.3rem; /* Títulos más pequeños en el overlay */
+  }
+  .area-card .overlay li {
+    font-size: 0.85rem; /* Texto de la lista más pequeño */
+  }
+}
 
-    .area-card .overlay h2 {
-        font-size: 1.3rem;
-    }
 }
 </style>
