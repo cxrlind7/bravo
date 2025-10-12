@@ -6,7 +6,7 @@
             <div class="parallax-bg"></div>
 
             <div class="section-content">
-                <!-- <img src="/path/to/logo.png" alt="Bravo & Asociados" class="hero-logo" /> -->
+                <img src="../../public/logobravo.png" alt="Bravo & Asociados" class="hero-logo" />
                 <h3 class="hero-title">Servicios Jurídicos y Asesoría Especializada de Alta Calidad</h3>
                 <p class="hero-subtitle">Compromiso de ética, responsabilidad y justicia en todo México</p>
                 <!-- <button class="hero-button">Agenda una Consulta</button> -->
@@ -202,6 +202,9 @@ export default {
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
 
+.hero-logo{
+    display: none;
+}
 
 /* Estilos para el ícono de interactividad (versión con imagen) */
 .area-card img.interactive-icon {
@@ -782,7 +785,11 @@ export default {
 
 /* Mobile Large */
 @media (max-width: 768px) {
-    
+    .hero-logo{
+        display: block;
+        width: 150px;
+        margin-bottom: 0rem;
+    }
     .content {
         padding-top: 70px;
     }
@@ -1036,7 +1043,7 @@ export default {
 .parallax-bg {
     position: fixed;
     height: 100vh;
-    background-image: url('/public/principal.jpg');
+    background-image: url('/public/fondo3.jpg');
     /* background-position: center -7rem; */
     z-index: -1;
 }
@@ -1070,7 +1077,11 @@ export default {
 
 
 @media (max-width: 480px) {
-
+    .hero-logo{
+        display: block;
+        width: 150px;
+        margin-bottom: 0rem;
+    }
 .parallax-section {
     position: relative;
     width: 100%;
@@ -1094,7 +1105,7 @@ export default {
   /* Ajustamos el contenedor del subtítulo inferior */
 .section-content {
     position: absolute;
-    top: 26rem;
+    top: 10rem;
     left: 0;
     right: 0;
     /* bottom: 0; */
@@ -1173,7 +1184,7 @@ export default {
   /* Ajustamos el contenedor del subtítulo inferior */
 .section-content {
     position: absolute;
-    top: 14rem;
+    top: 10rem;
     left: 0;
     right: 0;
 }
