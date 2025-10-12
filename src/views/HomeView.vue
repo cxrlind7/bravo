@@ -676,6 +676,7 @@ export default {
     background-image: url('/public/principal.jpg');
     background-size: cover;
     background-position: center;
+    overflow: hidden;
     background-attachment: fixed;
     z-index: -1;
 }
@@ -1034,12 +1035,7 @@ export default {
     
 .parallax-bg {
     position: fixed;
-    top: 0;
-    padding-bottom: 4rem;
-    left: 0;
-    width: 100%;
     height: 100vh;
-    /* Un poco más grande para el efecto */
     background-image: url('/public/principal.jpg');
     /* background-position: center -7rem; */
     z-index: -1;
@@ -1075,6 +1071,19 @@ export default {
 
 @media (max-width: 480px) {
 
+.parallax-section {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* 👈 Altura completa de la pantalla */
+    overflow: hidden; /* 👈 hidden, no auto */
+}
+
+.parallax-bg {
+    position: absolute; /* 👈 Importante */
+    top: 0;
+    left: 0;
+    width: 100%; 
+}
   /* ===== SECCIÓN DE INICIO (HERO) ===== */
   /* Ajustamos el título superior para que no se vea tan grande */
   .hero-title {
