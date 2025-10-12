@@ -634,6 +634,7 @@ export default {
     letter-spacing: 2px;
     text-transform: uppercase;
     opacity: 0.9;
+    text-align: center;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     position: relative; /* Necesario para el pseudo-elemento */
     padding-bottom: 2rem; /* Espacio para la línea */
@@ -840,18 +841,20 @@ export default {
     }
 
     /* ===== MISIÓN Y VISIÓN - Slider horizontal ===== */
-    .mision-vision-section .container {
-        display: flex;
-        overflow-x: auto;
-        /* 👈 Scroll horizontal */
-        scroll-snap-type: x mandatory;
-        gap: 1rem;
-        padding: 1rem 0;
-        -webkit-overflow-scrolling: touch;
-        /* Scroll suave en iOS */
-        scrollbar-width: none;
-        /* Oculta scrollbar en Firefox */
-    }
+.mision-vision-section .container {
+  display: flex;
+  flex-wrap: nowrap;               /* evita que las tarjetas bajen */
+  overflow-x: auto;                /* activa el scroll horizontal */
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  gap: 1rem;
+  padding: 1rem 0;
+  -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
+  
+  width: 100%;
+  max-width: 100%;                 /* elimina el límite de Bootstrap */
+  box-sizing: border-box;
+}
 
     .mision-vision-section .container::-webkit-scrollbar {
         display: none;
@@ -1046,7 +1049,7 @@ export default {
 
 .section-content {
     position: absolute;
-    top: 22rem;
+    top: 18rem;
     left: 0;
     right: 0;
     /* bottom: 0; */
@@ -1082,7 +1085,7 @@ export default {
   /* Ajustamos el contenedor del subtítulo inferior */
 .section-content {
     position: absolute;
-    top: 14rem;
+    top: 26rem;
     left: 0;
     right: 0;
     /* bottom: 0; */
@@ -1097,6 +1100,7 @@ export default {
   /* Compactamos el subtítulo y su línea decorativa */
   .hero-subtitle {
     font-size: 0.9rem;
+    text-align: center;
     line-height: 1.5;
     padding-bottom: 1.5rem;
     margin-bottom: 1.5rem;
@@ -1113,10 +1117,11 @@ export default {
 
   /* ===== MISIÓN Y VISIÓN ===== */
   /* Hacemos que cada tarjeta ocupe casi todo el ancho para un mejor enfoque */
-  .mision-box,
-  .vision-box {
-    min-width: 85vw; /* Cada tarjeta será más ancha y fácil de leer */
-  }
+.mision-box,
+.vision-box {
+  width: 85vw; /* Usamos 'width' para anular explícitamente el '40vw' */
+  flex-shrink: 0; /* Aseguramos que las tarjetas no se encojan */
+}
   .mision-box p,
   .vision-box p {
     font-size: 0.9rem;
@@ -1144,6 +1149,25 @@ export default {
   .area-card .overlay li {
     font-size: 0.85rem; /* Texto de la lista más pequeño */
   }
+}
+
+
+@media (max-width: 375px) {
+  
+  /* ===== SECCIÓN DE INICIO (HERO) ===== */
+  /* Ajustamos el título superior para que no se vea tan grande */
+  .hero-title {
+    font-size: 1.6rem; /* Un poco más pequeño */
+    padding: 1.5rem 1rem 2rem 1rem; /* Menos padding vertical */
+  }
+  
+  /* Ajustamos el contenedor del subtítulo inferior */
+.section-content {
+    position: absolute;
+    top: 14rem;
+    left: 0;
+    right: 0;
+}
 }
 
 }
