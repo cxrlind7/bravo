@@ -12,77 +12,108 @@
                 <!-- <button class="hero-button">Agenda una Consulta</button> -->
             </div>
         </div>
-        <div id="about" class="">
-            <div class="top-right-corner">
-                <h2>¿Quiénes somos?</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ipsa nam quod dolore repellendus,
-                    odit culpa mollitia magnam similique explicabo velit aperiam fugit consequatur. Repudiandae sit
-                    laboriosam velit doloribus voluptate!</p>
-                <br />
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda qui fuga dolores ducimus nam
-                    necessitatibus officia, iste ipsum nostrum, architecto inventore! Provident quos architecto
-                    reiciendis nihil similique ullam animi quisquam!</p>
-            </div>
+        <div id="map" class="">
             <div class="background-image"></div>
+        </div>
+        <!-- <section class="mision-vision-section normal-section"> -->
+        <div id="about" class="mision-vision-section">
+            <h2>NOSOTROS</h2>
+            <p class="description" :class="{ expanded: isExpanded }">
+                Bravo & Asociados es un despacho jurídico especializado en la prestación de servicios
+                legales de alta calidad, con presencia en toda la República Mexicana. Bajo el liderazgo de Roberto Bravo
+                Romo, ofrecemos asesoría integral en las áreas de Derecho Familiar, Empresarial y Penal, con un enfoque
+                en la excelencia profesional y el compromiso ético. Nuestra firma se distingue por brindar soluciones
+                jurídicas efectivas, fundamentadas en la responsabilidad, fidelidad y justicia, garantizando la
+                confianza y certidumbre que nuestros clientes merecen en cada asunto que nos encomiendan.
+            </p>
+            <button class="read-more-btn" @click="isExpanded = !isExpanded">
+                {{ isExpanded ? 'Leer menos' : 'Leer más' }}
+            </button>
+            <div class="container">
+                <div class="mision-box">
+                    <div class="icon"><i class="fa fa-bullseye"></i></div>
+                    <h3>Misión</h3>
+                    <p>Brindar servicios jurídicos y asesoría especializada de alta calidad profesional, con un
+                        ineludible compromiso de ética, responsabilidad, fidelidad y justicia, que den certidumbre de
+                        confianza a nuestros clientes.</p>
+                </div>
+
+                <div class="vision-box">
+                    <div class="icon"><i class="fa fa-eye"></i></div>
+                    <h3>Visión</h3>
+                    <p>Que la firma sea líder en brindar servicios jurídicos y asesoría especializada de alta calidad, a
+                        nivel nacional e internacional bajo los principios de confianza, honestidad, responsabilidad y
+                        calidad. Con el apoyo de tecnologías que nos permitan establecer dicho liderazgo.</p>
+                </div>
+            </div>
         </div>
         <div id="services" class="normal-section">
             <h2>Nuestros Servicios</h2>
             <p class="services-subtitle">Ofrecemos asesoría legal integral en las siguientes áreas:</p>
 
-            <div class="services-grid">
-                <div class="service-card">
+            <div class="services-grid" ref="servicesGrid" :class="{ 'is-paused': isServicesPaused }"
+                @touchstart.prevent="dragStart" @touchmove.prevent="dragMove" @touchend="dragEnd">
+
+                <div v-for="(service, index) in services" :key="'clone-' + index" class="service-card"
+                    aria-hidden="true">
                     <div class="service-icon">
-                        <!-- <i class="bi bi-people"></i> -->
-                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <i class="fa" :class="service.icon" aria-hidden="true"></i>
                     </div>
-                    <h3>Derecho Familiar</h3>
-                    <p>Asesoramiento en pensiones alimenticias, divorcios y juicios sucesorios.</p>
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.description }}</p>
                 </div>
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <!-- <i class="bi bi-briefcase"></i> -->
-                        <i class="fa fa-briefcase" aria-hidden="true"></i>
-                    </div>
-                    <h3>Derecho Empresarial</h3>
-                    <p>Dotamos a tu empresa de las mejores herramientas: contratos, reglamentos, protección de marca,
-                        etc.</p>
-                </div>
+            </div>
+        </div>
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fa fa-gavel" aria-hidden="true"></i>
-                        <!-- <i class="bi bi-shield-fill-exclamation"></i> -->
-                    </div>
-                    <h3>Derecho Penal</h3>
-                    <p>Representación legal ante problemas graves que impliquen detenciones o delitos que se atienden en
-                        las Fiscalías.</p>
+        <div class="specialized-areas">
+            <div class="area-card">
+                <img src="/public/empresa.jpg" alt="Derecho Corporativo">
+                <div class="overlay">
+                    <h2 class="title-specialized">DERECHO CORPORATIVO</h2>
+                    <ul>
+                        <li>Constitución de sociedades</li>
+                        <li>Fusiones y adquisiciones</li>
+                        <li>Contratos mercantiles</li>
+                        <li>Propiedad intelectual</li>
+                    </ul>
                 </div>
+                <img src="/public/grifo.png" alt="Icono interactivo" class="interactive-icon">
+
+            </div>
+
+            <div class="area-card">
+                <img src="/public/individual.jpg" alt="Asesoría Personal">
+                <div class="overlay">
+                    <h2 class="title-specialized">ASESORÍA PERSONAL</h2>
+                    <ul>
+                        <li>Testamentos y herencias</li>
+                        <li>Divorcios y pensiones</li>
+                        <li>Contratos civiles</li>
+                        <li>Defensa penal</li>
+                    </ul>
+                </div>
+                <img src="/public/grifo.png" alt="Icono interactivo" class="interactive-icon">
+            </div>
+
+            <div class="area-card">
+                <img src="/public/fiscal.jpg" alt="Derecho Fiscal">
+                <div class="overlay">
+                    <h2 class="title-specialized">DERECHO FISCAL</h2>
+                    <ul>
+                        <li>Auditorías del SAT</li>
+                        <li>Planeación tributaria</li>
+                        <li>Recursos de revocación</li>
+                        <li>Declaraciones anuales</li>
+                    </ul>
+                </div>
+                <img src="/public/grifo.png" alt="Icono interactivo" class="interactive-icon">
+
             </div>
         </div>
-                <div id="images" class="section normal-section">
-            <div class="image-gallery">
-                <div class="image-card">
-                    <img src="/public/empresa.jpg" alt="Imagen 1">
-                    <div class="overlay">
-                        <h2>Lorem ipsum dolor. </h2>
-                        <p style="font-size: 1.3rem;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, veniam eaque dolor animi vitae nihil totam nam maiores? Laudantium nulla illum suscipit animi ratione a quod temporibus dolorem culpa quia.</p>
-                    </div>
-                </div>
-                
-                <div class="image-card">
-                    <img src="/public/individual.jpg" alt="Imagen 2">
-                    <div class="overlay">
-                        <h2>Lorem ipsum dolor. </h2>
-                        <p style="font-size: 1.3rem;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, veniam eaque dolor animi vitae nihil totam nam maiores? Laudantium nulla illum suscipit animi ratione a quod temporibus dolorem culpa quia.</p>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, quia, iusto culpa eius quis, cupiditate dolor tempore ad quas dignissimos odit nesciunt eveniet! Eaque eveniet necessitatibus perferendis, quaerat incidunt asperiores!</h2>
-            <br>
-            <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, quia, iusto culpa eius quis, cupiditate dolor tempore ad quas dignissimos odit nesciunt eveniet! Eaque eveniet necessitatibus perferendis, quaerat incidunt asperiores! Lorem ipsum dolor sit amet, consectetur.</h4>
-        </div>
+
+
+
 
     </div>
     <Footer />
@@ -96,6 +127,72 @@ export default {
     components: {
         NavBar,
         Footer
+    },
+    data() {
+        return {
+            isExpanded: false,
+            isServicesPaused: false,
+            baseServices: [
+                {
+                    icon: 'fa-users',
+                    title: 'Derecho Familiar',
+                    description: 'Asesoramiento en pensiones alimenticias, divorcios y juicios sucesorios.'
+                },
+                {
+                    icon: 'fa-briefcase',
+                    title: 'Derecho Empresarial',
+                    description: 'Dotamos a tu empresa de las mejores herramientas: contratos, reglamentos, protección de marca, etc.'
+                },
+                {
+                    icon: 'fa-gavel',
+                    title: 'Derecho Penal',
+                    description: 'Representación legal ante problemas graves que impliquen detenciones o delitos que se atienden en las Fiscalías.'
+                }
+            ],
+            isDragging: false,      // ¿Está el usuario arrastrando?
+            startX: 0,              // Posición X inicial del toque
+            scrollLeft: 0,          // Posición de scroll inicial del contenedor
+            dragOffset: 0,
+            isDesktop: window.innerWidth > 1024,
+        };
+    },
+    computed: {
+        services() {
+            // **AQUÍ ESTÁ LA MAGIA**
+            // Si NO es escritorio (es móvil), multiplica el arreglo.
+            if (!this.isDesktop) {
+                // Repite el arreglo para el bucle infinito en móvil.
+                return Array.from({ length: 10 }).flatMap(() => this.baseServices);
+            }
+            // Si SÍ es escritorio, simplemente devuelve el arreglo original de 3 tarjetas.
+            return this.baseServices;
+        }
+    },
+    methods: {
+        dragStart(e) {
+            this.isDragging = true;
+            this.isServicesPaused = true; // Pausa la animación al empezar a arrastrar
+            // Guarda la posición inicial del dedo y el scroll del contenedor
+            this.startX = e.touches[0].pageX - this.$refs.servicesGrid.offsetLeft;
+            this.scrollLeft = parseFloat(this.$refs.servicesGrid.style.getPropertyValue('--drag-offset')) || 0;
+        },
+        dragMove(e) {
+            if (!this.isDragging) return;
+            e.preventDefault(); // Evita el scroll de la página
+            const x = e.touches[0].pageX - this.$refs.servicesGrid.offsetLeft;
+            const walk = (x - this.startX) * 1.5; // El * 1.5 hace el arrastre más rápido
+
+            // Calcula el nuevo offset y lo aplica a la variable CSS
+            this.dragOffset = this.scrollLeft + walk;
+            this.$refs.servicesGrid.style.setProperty('--drag-offset', this.dragOffset + 'px');
+        },
+        dragEnd() {
+            this.isDragging = false;
+            this.isServicesPaused = false; // Reanuda la animación al soltar
+
+            // Aquí podrías añadir lógica para "ajustar" la tarjeta más cercana,
+            // pero para mantener la animación simple, solo reanudamos.
+        }
     }
 };
 </script>
@@ -104,6 +201,183 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+
+
+/* Estilos para el ícono de interactividad (versión con imagen) */
+.area-card img.interactive-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+
+    /* Anula cualquier otra regla con !important */
+    width: 40px !important;
+    height: 40px !important;
+
+    z-index: 10;
+    filter: brightness(0) invert(1) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* La regla para ocultar al hacer hover sigue siendo la misma */
+.area-card:hover .interactive-icon {
+    opacity: 0;
+}
+
+/* Sección de Áreas Especializadas */
+.title-specialized {
+    color: #c9a961;
+    font-weight: 700;
+    padding-bottom: 2rem;
+}
+
+.specialized-areas {
+    background: #c1c1c1;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.specialized-areas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* 👈 2 columnas */
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    background: #c1c1c1;
+}
+
+.area-card {
+    position: relative;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* El tercer card ocupa las 2 columnas y se centra */
+.area-card:nth-child(3) {
+    grid-column: 1 / -1;
+    /* 👈 Ocupa ambas columnas */
+    max-width: 600px;
+    /* 👈 Limita el ancho */
+    margin: 0 auto;
+    /* 👈 Centra */
+}
+
+.area-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.area-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.area-card:hover img {
+    transform: scale(1.2);
+    filter: blur(12px);
+    /* <-- Añade esta línea */
+}
+
+/* Overlay */
+.area-card .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    color: white;
+    padding: 2.5rem 2rem 2rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.area-card:hover .overlay {
+    transform: translateY(0);
+}
+
+.area-card .overlay h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.8rem;
+    color: #c9a961;
+    font-weight: 700;
+}
+
+.area-card .overlay ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.area-card .overlay li {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    opacity: 0.95;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.area-card .overlay li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #c9a961;
+    font-weight: bold;
+}
+
+
+.description {
+    text-align: center;
+    line-height: 1.6;
+    font-size: 1.2rem;
+    /* mejora la legibilidad */
+}
+
+.mision-vision-section {
+    text-align: center;
+    background: #1a1a1a;
+    padding: 4rem 2rem;
+    color: white;
+}
+
+.mision-vision-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.mision-box,
+.vision-box {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 4px solid #c9a961;
+}
+
+.mision-box .icon,
+.vision-box .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.mision-box h3,
+.vision-box h3 {
+    color: #c9a961;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
 
 #services {
     background: linear-gradient(135deg, #B8B8B8 0%, #9E9E9E 100%);
@@ -299,6 +573,19 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    padding: 10px 20px 60px 20px;
+    /* top, right, bottom, left */
+    overflow: hidden;
+    /* mantiene la imagen dentro del contenedor */
+}
+
+#map {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     padding: 10px 20px 60px 90px;
     /* top, right, bottom, left */
     overflow: hidden;
@@ -320,13 +607,16 @@ export default {
 }
 
 #about h2 {
-    /* position: relative; */
-    z-index: 1;
-    color: white;
-    /* ajusta según tu diseño */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     font-size: 2rem;
+    color: #afafaf;
+    margin-bottom: 15px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
+
 
 .hero-title {
     font-family: 'Montserrat', sans-serif;
@@ -339,14 +629,26 @@ export default {
 }
 
 .hero-subtitle {
-    font-size: 1.4rem;
-    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
     font-weight: 400;
-    /* Regular */
-    letter-spacing: 0.3px;
-    color: #252524;
-    /* font-size: 1rem; */
-    margin-bottom: 2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.9;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    position: relative; /* Necesario para el pseudo-elemento */
+    padding-bottom: 2rem; /* Espacio para la línea */
+}
+
+/* Esta es la línea divisora */
+.hero-subtitle::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Centra la línea */
+    width: 100px; /* Ancho de la línea */
+    height: 2px;  /* Grosor de la línea */
+    background-color: rgba(255, 255, 255, 0.8); /* Color blanco semi-transparente */
 }
 
 .content {
@@ -471,156 +773,329 @@ export default {
     opacity: 0.9;
 }
 
-/* Tablets */
-@media (max-width: 1024px) {
-    .parallax-bg {
-        background-attachment: scroll;
-        /* Mejor rendimiento en tablets */
-        background-size: cover;
-        /* En tablets, volver a cover para mejor ajuste */
-    }
-
-    .section-content {
-        padding: 80px 30px;
-    }
-
-    .image-card {
-        height: clamp(280px, 45vw, 350px);
-    }
+.read-more-btn {
+    display: none;
 }
+
 
 /* Mobile Large */
 @media (max-width: 768px) {
+    
     .content {
         padding-top: 70px;
     }
 
-    .image-gallery {
-        flex-direction: column;
-        gap: 1.5rem;
-        margin-top: 2rem;
+    /* ===== SECCIÓN MAP - Imagen completa sin recortar ===== */
+    #map {
+        padding: 0;
+        min-height: 26vh;
+        /* Ajustado para móvil */
     }
 
-    .image-card {
-        width: 100%;
-        height: 280px;
-        border-radius: 20px;
+    .background-image {
+        background-size: contain;
+        /* 👈 Imagen completa sin recortar */
+        background-position: center;
+        background-color: #1a1a1a;
+        /* Fondo para espacios vacíos */
     }
 
-    .overlay {
-        padding: 1.5rem;
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
-        text-align: center;
+    /* ===== SECCIÓN NOSOTROS ===== */
+    #about {
+        padding: 2rem 1rem;
+        min-height: auto;
     }
 
-    .overlay h2 {
-        font-size: 1.3rem;
+    #about h2 {
+        font-size: 1.8rem;
         margin-bottom: 1rem;
     }
 
-    .overlay p {
-        font-size: 1rem;
-        margin-bottom: 1.2rem;
+    /* Descripción más pequeña y retráctil */
+    .description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        padding: 0 0.5rem;
+        max-height: 150px;
+        /* 👈 Altura máxima */
+        overflow: hidden;
+        position: relative;
+        transition: max-height 0.3s ease;
     }
 
-    .cta-button {
-        padding: 0.8rem 2rem;
-        font-size: 0.95rem;
+    .description.expanded {
+        max-height: 1000px;
+        /* 👈 Se expande al hacer clic */
     }
 
-    .normal-section {
-        padding: 60px 1.5rem;
+    /* Botón "Leer más" (necesitas agregarlo en el HTML) */
+    .read-more-btn {
+        display: block;
+        margin: 1rem auto;
+        padding: 0.5rem 1.5rem;
+        background: #c9a961;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
     }
 
-    .text-content {
-        margin-top: 3rem;
-        text-align: center;
+    /* ===== MISIÓN Y VISIÓN - Slider horizontal ===== */
+    .mision-vision-section .container {
+        display: flex;
+        overflow-x: auto;
+        /* 👈 Scroll horizontal */
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding: 1rem 0;
+        -webkit-overflow-scrolling: touch;
+        /* Scroll suave en iOS */
+        scrollbar-width: none;
+        /* Oculta scrollbar en Firefox */
     }
 
-    .main-title {
-        font-size: 1.8rem;
-        margin-bottom: 1.5rem;
+    .mision-vision-section .container::-webkit-scrollbar {
+        display: none;
+        /* Oculta scrollbar en Chrome/Safari */
     }
 
-    .main-description {
-        font-size: 1.1rem;
-        text-align: left;
-    }
-}
-
-/* Mobile Small */
-@media (max-width: 480px) {
-    .section-content {
-        padding: 60px 15px;
+    .mision-box,
+    .vision-box {
+        width: 40vw;
+        scroll-snap-align: center;
+        padding: 1.5rem;
+        flex-shrink: 0;
     }
 
-    .section-content h1 {
-        font-size: 2.2rem;
+    .mision-box .icon,
+    .vision-box .icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.8rem;
     }
 
-    .image-card {
-        height: 250px;
-        border-radius: 15px;
+    .mision-box h3,
+    .vision-box h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
     }
 
-    .overlay {
-        padding: 1.2rem;
-    }
-
-    .overlay h2 {
-        font-size: 1.2rem;
-    }
-
-    .overlay p {
+    .mision-box p,
+    .vision-box p {
         font-size: 0.95rem;
         line-height: 1.5;
     }
 
-    .normal-section {
-        padding: 40px 1rem;
-    }
-
-    .main-title {
-        font-size: 1.6rem;
-    }
-
-    .main-description {
-        font-size: 1rem;
-    }
-}
-
-/* Extra Small Mobile */
-@media (max-width: 360px) {
-    .content {
-        padding-top: 65px;
-    }
-
-    .image-card {
-        height: 220px;
-    }
-
-    .overlay {
-        padding: 1rem;
-    }
-
-    .cta-button {
-        padding: 0.7rem 1.5rem;
+    /* Indicadores de scroll (opcional) */
+    .mision-vision-section::after {
+        content: '← Desliza →';
+        display: block;
+        text-align: center;
+        color: #c9a961;
         font-size: 0.85rem;
+        margin-top: 1rem;
+        opacity: 0.7;
     }
+
+    /* ===== SERVICIOS - Slider automático ===== */
+    #services {
+        padding: 3rem 1rem;
+        overflow: hidden;
+        /* 👈 Importante para el slider */
+    }
+
+    #services h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .services-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+    }
+
+    .services-grid {
+        display: flex;
+        gap: 1.5rem;
+        width: max-content;
+        --drag-offset: 0px;
+        /* 👈 Inicializa la variable de arrastre */
+        transform: translateX(var(--drag-offset));
+        /* 👈 Aplica el arrastre inicial */
+        animation: autoScrollServices 30s linear infinite;
+        /* Aceleré un poco la animación */
+    }
+
+    .service-card {
+        min-width: 260px;
+        flex-shrink: 0;
+        padding: 2rem 1.5rem;
+        background: #e8e8e8;
+        /* Fondo simple */
+        border-radius: 15px;
+        /* Bordes redondeados */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        /* Sombra sutil */
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .service-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: #6a6a6a;
+        /* Color simple */
+    }
+
+    .service-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        color: #1a1a1a;
+    }
+
+    .service-card p {
+        font-size: 0.95rem;
+        color: #4a4a4a;
+    }
+
+    /* 2. SE CONSERVA SOLO LA ANIMACIÓN DE SCROLL Y LA PAUSA */
+    @keyframes autoScrollServices {
+        0% {
+            transform: translateX(var(--drag-offset));
+        }
+
+        100% {
+            /* Mueve el 50% del ancho, MÁS el offset del arrastre del usuario */
+            transform: translateX(calc(-50% + var(--drag-offset)));
+        }
+    }
+
+    /* Pausa la animación al tocar (con JS) o al hacer hover (mouse) */
+    .services-grid.is-paused,
+    .services-grid:hover {
+        animation-play-state: paused;
+    }
+
+    /* --- FIN DE CAMBIOS --- */
+
+
+    /* Pausa al hacer hover (opcional) */
+    /* Pausa la animación cuando se toca (añade la clase) O al hacer hover con el mouse */
+    .services-grid.is-paused,
+    .services-grid:hover {
+        animation-play-state: paused;
+    }
+
+    /* ===== SPECIALIZED AREAS - Apiladas full width ===== */
+    .specialized-areas {
+        display: flex;
+        /* 👈 Cambiado de grid a flex */
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 3rem 1rem;
+    }
+
+    .area-card {
+        width: 100%;
+        /* 👈 Full width */
+        max-width: 100%;
+        height: 350px;
+        margin: 0;
+        /* 👈 Reset del margin auto */
+    }
+
+    .area-card:nth-child(3) {
+        grid-column: auto;
+        /* 👈 Reset del grid-column */
+        max-width: 100%;
+    }
+
+    .area-card .overlay {
+        padding: 2rem 1.5rem;
+    }
+
+    .area-card .overlay h2 {
+        font-size: 1.5rem;
+        padding-bottom: 1rem;
+    }
+
+    .area-card .overlay ul {
+        text-align: left;
+    }
+
+    .area-card .overlay li {
+        font-size: 0.9rem;
+        padding: 0.4rem 0;
+    }
+
+    
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    padding-bottom: 4rem;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    /* Un poco más grande para el efecto */
+    background-image: url('/public/principal2.jpg');
+    /* background-position: center -7rem; */
+    z-index: -1;
+}
+    
+
+
+.section-content {
+    position: absolute;
+    top: 22rem;
+    left: 0;
+    right: 0;
+    /* bottom: 0; */
+    /* padding-top: 12rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
-/* Landscape Mobile */
-@media (max-height: 500px) and (orientation: landscape) {
-    .section-content {
-        padding: 40px 20px;
+.hero-title {
+    
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    /* Bold */
+    letter-spacing: 0.5px;
+    color: #252524;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+}
+
+/* Mobile Small - Ajustes adicionales */
+@media (max-width: 480px) {
+    .description {
+        font-size: 0.85rem;
+        max-height: 120px;
     }
 
-    .section-content h1 {
-        font-size: 2rem;
+    .mision-box,
+    .vision-box {
+        min-width: 90%;
     }
 
-    .image-card {
-        height: 200px;
+    .service-card {
+        width: 10vw;
+        min-width: 260px;
+    }
+
+    .area-card {
+        height: 300px;
+    }
+
+    .area-card .overlay h2 {
+        font-size: 1.3rem;
     }
 }
 </style>
