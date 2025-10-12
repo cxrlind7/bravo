@@ -1184,7 +1184,7 @@ export default {
   /* Ajustamos el contenedor del subtítulo inferior */
 .section-content {
     position: absolute;
-    top: 10rem;
+    top: 6rem;
     left: 0;
     right: 0;
 }
