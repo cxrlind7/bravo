@@ -327,7 +327,7 @@ export default {
 }
 
 .area-card .overlay li:before {
-    content: '✓';
+    /* content: '✓'; */
     position: absolute;
     left: 0;
     color: #c9a961;
