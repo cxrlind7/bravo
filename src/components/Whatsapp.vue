@@ -9,7 +9,7 @@
 const openWhatsApp = () => {
   // IMPORTANTE: Reemplaza este número con tu número de WhatsApp
   // Formato: código de país + número (sin +, espacios o guiones)
-  const phoneNumber = '525556049890';
+  const phoneNumber = '526181222244';
 
   const url = `https://wa.me/${phoneNumber}`;
 
