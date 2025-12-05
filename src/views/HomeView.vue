@@ -1,5 +1,4 @@
 <template>
-
     <NavBar :isHomePage="true" />
     <div class="content">
         <div id="inicio" class="section parallax-section">
@@ -51,19 +50,16 @@
             <h2>Nuestros Servicios</h2>
             <p class="services-subtitle">Ofrecemos asesoría legal integral en las siguientes áreas:</p>
 
-            <div class="services-grid" ref="servicesGrid" :class="{ 'is-paused': isServicesPaused }"
-                @touchstart.prevent="dragStart" @touchmove.prevent="dragMove" @touchend="dragEnd">
-
-                <div v-for="(service, index) in services" :key="'clone-' + index" class="service-card"
-                    aria-hidden="true">
+            <div class="services-snap-container">
+                <div v-for="(service, index) in baseServices" :key="index" class="service-card">
                     <div class="service-icon">
                         <i class="fa" :class="service.icon" aria-hidden="true"></i>
                     </div>
                     <h3>{{ service.title }}</h3>
                     <p>{{ service.description }}</p>
                 </div>
-
             </div>
+            <p class="swipe-indicator">← Desliza →</p>
         </div>
 
         <div class="specialized-areas">
@@ -131,7 +127,6 @@ export default {
     data() {
         return {
             isExpanded: false,
-            isServicesPaused: false,
             baseServices: [
                 {
                     icon: 'fa-users',
@@ -149,51 +144,8 @@ export default {
                     description: 'Representación legal ante problemas graves que impliquen detenciones o delitos que se atienden en las Fiscalías.'
                 }
             ],
-            isDragging: false,      // ¿Está el usuario arrastrando?
-            startX: 0,              // Posición X inicial del toque
-            scrollLeft: 0,          // Posición de scroll inicial del contenedor
-            dragOffset: 0,
-            isDesktop: window.innerWidth > 1024,
         };
     },
-    computed: {
-        services() {
-            // **AQUÍ ESTÁ LA MAGIA**
-            // Si NO es escritorio (es móvil), multiplica el arreglo.
-            if (!this.isDesktop) {
-                // Repite el arreglo para el bucle infinito en móvil.
-                return Array.from({ length: 10 }).flatMap(() => this.baseServices);
-            }
-            // Si SÍ es escritorio, simplemente devuelve el arreglo original de 3 tarjetas.
-            return this.baseServices;
-        }
-    },
-    methods: {
-        dragStart(e) {
-            this.isDragging = true;
-            this.isServicesPaused = true; // Pausa la animación al empezar a arrastrar
-            // Guarda la posición inicial del dedo y el scroll del contenedor
-            this.startX = e.touches[0].pageX - this.$refs.servicesGrid.offsetLeft;
-            this.scrollLeft = parseFloat(this.$refs.servicesGrid.style.getPropertyValue('--drag-offset')) || 0;
-        },
-        dragMove(e) {
-            if (!this.isDragging) return;
-            e.preventDefault(); // Evita el scroll de la página
-            const x = e.touches[0].pageX - this.$refs.servicesGrid.offsetLeft;
-            const walk = (x - this.startX) * 1.5; // El * 1.5 hace el arrastre más rápido
-
-            // Calcula el nuevo offset y lo aplica a la variable CSS
-            this.dragOffset = this.scrollLeft + walk;
-            this.$refs.servicesGrid.style.setProperty('--drag-offset', this.dragOffset + 'px');
-        },
-        dragEnd() {
-            this.isDragging = false;
-            this.isServicesPaused = false; // Reanuda la animación al soltar
-
-            // Aquí podrías añadir lógica para "ajustar" la tarjeta más cercana,
-            // pero para mantener la animación simple, solo reanudamos.
-        }
-    }
 };
 </script>
 
@@ -202,7 +154,7 @@ export default {
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
 
-.hero-logo{
+.hero-logo {
     display: none;
 }
 
@@ -435,25 +387,65 @@ export default {
     font-weight: 400;
 }
 
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
+.swipe-indicator {
+    display: none;
+    color: #c9a961;
+}
+
+/* Contenedor con CSS Scroll Snap */
+.services-snap-container {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.0);
+    /* Cambiado de grid a flex para el carrusel */
+    gap: 2rem;
+    /* Espacio entre tarjetas */
+    overflow-x: auto;
+    /* Habilita el scroll horizontal */
+    scroll-snap-type: x mandatory;
+    /* Fuerza que el scroll se detenga en los puntos de anclaje */
+    padding: 2rem 1rem;
+    /* Padding para que se vean las sombras */
     max-width: 1200px;
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
+
+    /* Ocultar la barra de scroll de forma moderna y limpia */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+}
+
+.services-snap-container::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari/Opera */
 }
 
 .service-card {
+    /* Configuración para que funcione dentro del flex container */
+    flex: 0 0 auto;
+    /* No crecer, no encoger, tamaño base automático */
+    width: 350px;
+    /* Ancho fijo base para escritorio */
+
+    /* Punto de anclaje para el scroll snap */
+    scroll-snap-align: center;
+    /* La tarjeta se centrará al soltar el scroll */
+
+    /* ... el resto de tus estilos de tarjeta se mantienen igual ... */
     background: linear-gradient(145deg, #e8e8e8 0%, #d4d4d4 100%);
     border-radius: 20px;
     padding: 2.5rem 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+    /* --- CAMBIO AQUÍ --- */
+    /* Se eliminó el borde y se ajustó la sombra para que sea más suave y limpia */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: none;
+    /* Aseguramos que no haya borde */
+    /* ------------------- */
+
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .service-card::before {
@@ -473,7 +465,8 @@ export default {
 
 .service-card:hover {
     transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    /* Sombra más pronunciada al hacer hover */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .service-icon {
@@ -639,8 +632,10 @@ export default {
     opacity: 0.9;
     text-align: center;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    position: relative; /* Necesario para el pseudo-elemento */
-    padding-bottom: 2rem; /* Espacio para la línea */
+    position: relative;
+    /* Necesario para el pseudo-elemento */
+    padding-bottom: 2rem;
+    /* Espacio para la línea */
 }
 
 /* Esta es la línea divisora */
@@ -649,10 +644,14 @@ export default {
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%); /* Centra la línea */
-    width: 100px; /* Ancho de la línea */
-    height: 2px;  /* Grosor de la línea */
-    background-color: rgba(255, 255, 255, 0.8); /* Color blanco semi-transparente */
+    transform: translateX(-50%);
+    /* Centra la línea */
+    width: 100px;
+    /* Ancho de la línea */
+    height: 2px;
+    /* Grosor de la línea */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Color blanco semi-transparente */
 }
 
 .content {
@@ -785,28 +784,33 @@ export default {
 
 /* Mobile Large */
 @media (max-width: 768px) {
-    .hero-logo{
+    .hero-logo {
         display: block;
         width: 150px;
         margin-bottom: 0rem;
     }
+
     .content {
         padding-top: 70px;
     }
 
     /* ===== SECCIÓN MAP - Imagen completa sin recortar ===== */
- #map {
-    padding: 0; /* Asegúrate de que el contenedor no tenga padding */
-    min-height: 30vh; /* Dale una altura mínima para que la imagen sea visible */
-  }
-  
-  .background-image {
-    /* ...tus otras propiedades como position, top, left, etc... */
-    background-size: cover; /* 👈 Este es el cambio principal */
-    background-position: center;
-    background-repeat: no-repeat;
-    /* Ya no necesitas un background-color si la imagen siempre va a cubrir todo */
-  }
+    #map {
+        padding: 0;
+        /* Asegúrate de que el contenedor no tenga padding */
+        min-height: 30vh;
+        /* Dale una altura mínima para que la imagen sea visible */
+    }
+
+    .background-image {
+        /* ...tus otras propiedades como position, top, left, etc... */
+        background-size: cover;
+        /* 👈 Este es el cambio principal */
+        background-position: center;
+        background-repeat: no-repeat;
+        /* Ya no necesitas un background-color si la imagen siempre va a cubrir todo */
+    }
+
     /* ===== SECCIÓN NOSOTROS ===== */
     #about {
         padding: 2rem 1rem;
@@ -849,20 +853,24 @@ export default {
     }
 
     /* ===== MISIÓN Y VISIÓN - Slider horizontal ===== */
-.mision-vision-section .container {
-  display: flex;
-  flex-wrap: nowrap;               /* evita que las tarjetas bajen */
-  overflow-x: auto;                /* activa el scroll horizontal */
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  gap: 1rem;
-  padding: 1rem 0;
-  -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
-  
-  width: 100%;
-  max-width: 100%;                 /* elimina el límite de Bootstrap */
-  box-sizing: border-box;
-}
+    .mision-vision-section .container {
+        display: flex;
+        flex-wrap: nowrap;
+        /* evita que las tarjetas bajen */
+        overflow-x: auto;
+        /* activa el scroll horizontal */
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding: 1rem 0;
+        -webkit-overflow-scrolling: touch;
+        /* suaviza scroll en iOS */
+
+        width: 100%;
+        max-width: 100%;
+        /* elimina el límite de Bootstrap */
+        box-sizing: border-box;
+    }
 
     .mision-vision-section .container::-webkit-scrollbar {
         display: none;
@@ -924,29 +932,22 @@ export default {
         padding: 0 1rem;
     }
 
-    .services-grid {
-        display: flex;
-        gap: 1.5rem;
-        width: max-content;
-        --drag-offset: 0px;
-        /* 👈 Inicializa la variable de arrastre */
-        transform: translateX(var(--drag-offset));
-        /* 👈 Aplica el arrastre inicial */
-        animation: autoScrollServices 30s linear infinite;
-        /* Aceleré un poco la animación */
+    /* Ajustes del contenedor en móvil */
+    .services-snap-container {
+        gap: 1rem;
+        /* Menos espacio entre tarjetas */
+        padding: 1rem 0.5rem;
+        /* En móvil, queremos que el scroll empiece desde el borde izquierdo */
+        justify-content: flex-start;
     }
 
+    /* Ajustes de la tarjeta en móvil */
     .service-card {
-        min-width: 260px;
-        flex-shrink: 0;
+        /* Hacemos que el ancho sea relativo a la pantalla del móvil */
+        width: 85vw;
+        max-width: 320px;
+        /* Pero que no se pase de cierto tamaño */
         padding: 2rem 1.5rem;
-        background: #e8e8e8;
-        /* Fondo simple */
-        border-radius: 15px;
-        /* Bordes redondeados */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        /* Sombra sutil */
-        border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     .service-icon {
@@ -969,32 +970,31 @@ export default {
         color: #4a4a4a;
     }
 
-    /* 2. SE CONSERVA SOLO LA ANIMACIÓN DE SCROLL Y LA PAUSA */
-    @keyframes autoScrollServices {
+    .swipe-indicator {
+        display: block;
+        text-align: center;
+        color: #1a1a1a;
+        font-size: 1rem;
+        margin-top: 1rem;
+        font-weight: 600;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
         0% {
-            transform: translateX(var(--drag-offset));
+            opacity: 0.6;
+            transform: translateX(0);
+        }
+
+        50% {
+            opacity: 1;
+            transform: translateX(5px);
         }
 
         100% {
-            /* Mueve el 50% del ancho, MÁS el offset del arrastre del usuario */
-            transform: translateX(calc(-50% + var(--drag-offset)));
+            opacity: 0.6;
+            transform: translateX(0);
         }
-    }
-
-    /* Pausa la animación al tocar (con JS) o al hacer hover (mouse) */
-    .services-grid.is-paused,
-    .services-grid:hover {
-        animation-play-state: paused;
-    }
-
-    /* --- FIN DE CAMBIOS --- */
-
-
-    /* Pausa al hacer hover (opcional) */
-    /* Pausa la animación cuando se toca (añade la clase) O al hacer hover con el mouse */
-    .services-grid.is-paused,
-    .services-grid:hover {
-        animation-play-state: paused;
     }
 
     /* ===== SPECIALIZED AREAS - Apiladas full width ===== */
@@ -1039,156 +1039,174 @@ export default {
         padding: 0.4rem 0;
     }
 
-    
-.parallax-bg {
-    position: fixed;
-    height: 100vh;
-    background-image: url('/public/fondo3.jpg');
-    /* background-position: center -7rem; */
-    z-index: -1;
-}
-    
 
-
-.section-content {
-    position: absolute;
-    top: 18rem;
-    left: 0;
-    right: 0;
-    /* bottom: 0; */
-    /* padding-top: 12rem; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.hero-title {
-    
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    /* Bold */
-    letter-spacing: 0.5px;
-    color: #252524;
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-}
-
-
-@media (max-width: 480px) {
-    .hero-logo{
-        display: block;
-        width: 150px;
-        margin-bottom: 0rem;
+    .parallax-bg {
+        position: fixed;
+        height: 100vh;
+        background-image: url('/public/fondo3.jpg');
+        /* background-position: center -7rem; */
+        z-index: -1;
     }
-.parallax-section {
-    position: relative;
-    width: 100%;
-    height: 100vh; /* 👈 Altura completa de la pantalla */
-    overflow: hidden; /* 👈 hidden, no auto */
-}
-
-.parallax-bg {
-    position: absolute; /* 👈 Importante */
-    top: 0;
-    left: 0;
-    width: 100%; 
-}
-  /* ===== SECCIÓN DE INICIO (HERO) ===== */
-  /* Ajustamos el título superior para que no se vea tan grande */
-  .hero-title {
-    font-size: 1.6rem; /* Un poco más pequeño */
-    padding: 1.5rem 1rem 2rem 1rem; /* Menos padding vertical */
-  }
-  
-  /* Ajustamos el contenedor del subtítulo inferior */
-.section-content {
-    position: absolute;
-    top: 10rem;
-    left: 0;
-    right: 0;
-    /* bottom: 0; */
-    /* padding-top: 12rem; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-  /* Compactamos el subtítulo y su línea decorativa */
-  .hero-subtitle {
-    font-size: 0.9rem;
-    text-align: center;
-    line-height: 1.5;
-    padding-bottom: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .hero-subtitle::after {
-    width: 50px; /* Línea más corta */
-  }
-
-  /* ===== SECCIÓN NOSOTROS ===== */
-  .description {
-    font-size: 0.85rem;
-    max-height: 120px; /* Hacemos el área de texto inicial más pequeña */
-  }
-
-  /* ===== MISIÓN Y VISIÓN ===== */
-  /* Hacemos que cada tarjeta ocupe casi todo el ancho para un mejor enfoque */
-.mision-box,
-.vision-box {
-  width: 85vw; /* Usamos 'width' para anular explícitamente el '40vw' */
-  flex-shrink: 0; /* Aseguramos que las tarjetas no se encojan */
-}
-  .mision-box p,
-  .vision-box p {
-    font-size: 0.9rem;
-  }
-  
-  /* ===== SECCIÓN SERVICIOS ===== */
-  .service-card {
-    width: 40vw;
-    padding: 1.5rem;
-  }
-  .service-card h3 {
-    font-size: 1.2rem;
-  }
-  .service-card p {
-    font-size: 0.9rem;
-  }
-
-  /* ===== ÁREAS ESPECIALIZADAS ===== */
-  .area-card {
-    height: 300px; /* Hacemos las tarjetas de imagen un poco menos altas */
-  }
-  .area-card .overlay h2 {
-    font-size: 1.3rem; /* Títulos más pequeños en el overlay */
-  }
-  .area-card .overlay li {
-    font-size: 0.85rem; /* Texto de la lista más pequeño */
-  }
-}
 
 
-@media (max-width: 375px) {
-  
-  /* ===== SECCIÓN DE INICIO (HERO) ===== */
-  /* Ajustamos el título superior para que no se vea tan grande */
-  .hero-title {
-    font-size: 1.6rem; /* Un poco más pequeño */
-    padding: 1.5rem 1rem 2rem 1rem; /* Menos padding vertical */
-  }
-  
-  /* Ajustamos el contenedor del subtítulo inferior */
-.section-content {
-    position: absolute;
-    top: 6rem;
-    left: 0;
-    right: 0;
-}
-}
+
+    .section-content {
+        position: absolute;
+        top: 18rem;
+        left: 0;
+        right: 0;
+        /* bottom: 0; */
+        /* padding-top: 12rem; */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .hero-title {
+
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        /* Bold */
+        letter-spacing: 0.5px;
+        color: #252524;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+
+    @media (max-width: 480px) {
+        .hero-logo {
+            display: block;
+            width: 150px;
+            margin-bottom: 0rem;
+        }
+
+        .parallax-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            /* 👈 Altura completa de la pantalla */
+            overflow: hidden;
+            /* 👈 hidden, no auto */
+        }
+
+        .parallax-bg {
+            position: absolute;
+            /* 👈 Importante */
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        /* ===== SECCIÓN DE INICIO (HERO) ===== */
+        /* Ajustamos el título superior para que no se vea tan grande */
+        .hero-title {
+            font-size: 1.6rem;
+            /* Un poco más pequeño */
+            padding: 1.5rem 1rem 2rem 1rem;
+            /* Menos padding vertical */
+        }
+
+        /* Ajustamos el contenedor del subtítulo inferior */
+        .section-content {
+            position: absolute;
+            top: 10rem;
+            left: 0;
+            right: 0;
+            /* bottom: 0; */
+            /* padding-top: 12rem; */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Compactamos el subtítulo y su línea decorativa */
+        .hero-subtitle {
+            font-size: 0.9rem;
+            text-align: center;
+            line-height: 1.5;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle::after {
+            width: 50px;
+            /* Línea más corta */
+        }
+
+        /* ===== SECCIÓN NOSOTROS ===== */
+        .description {
+            font-size: 0.85rem;
+            max-height: 120px;
+            /* Hacemos el área de texto inicial más pequeña */
+        }
+
+        /* ===== MISIÓN Y VISIÓN ===== */
+        /* Hacemos que cada tarjeta ocupe casi todo el ancho para un mejor enfoque */
+        .mision-box,
+        .vision-box {
+            width: 85vw;
+            /* Usamos 'width' para anular explícitamente el '40vw' */
+            flex-shrink: 0;
+            /* Aseguramos que las tarjetas no se encojan */
+        }
+
+        .mision-box p,
+        .vision-box p {
+            font-size: 0.9rem;
+        }
+
+        /* ===== SECCIÓN SERVICIOS ===== */
+
+        .service-card h3 {
+            font-size: 1.2rem;
+        }
+
+        .service-card p {
+            font-size: 0.9rem;
+        }
+
+        /* ===== ÁREAS ESPECIALIZADAS ===== */
+        .area-card {
+            height: 300px;
+            /* Hacemos las tarjetas de imagen un poco menos altas */
+        }
+
+        .area-card .overlay h2 {
+            font-size: 1.3rem;
+            /* Títulos más pequeños en el overlay */
+        }
+
+        .area-card .overlay li {
+            font-size: 0.85rem;
+            /* Texto de la lista más pequeño */
+        }
+    }
+
+
+    @media (max-width: 375px) {
+
+        /* ===== SECCIÓN DE INICIO (HERO) ===== */
+        /* Ajustamos el título superior para que no se vea tan grande */
+        .hero-title {
+            font-size: 1.6rem;
+            /* Un poco más pequeño */
+            padding: 1.5rem 1rem 2rem 1rem;
+            /* Menos padding vertical */
+        }
+
+        /* Ajustamos el contenedor del subtítulo inferior */
+        .section-content {
+            position: absolute;
+            top: 6rem;
+            left: 0;
+            right: 0;
+        }
+    }
 
 }
 </style>
