@@ -9,10 +9,10 @@
 const openWhatsApp = () => {
   // IMPORTANTE: Reemplaza este número con tu número de WhatsApp
   // Formato: código de país + número (sin +, espacios o guiones)
-  const phoneNumber = '521234567890'; 
-  
+  const phoneNumber = '525556049890';
+
   const url = `https://wa.me/${phoneNumber}`;
-  
+
   // Abre el enlace en una nueva pestaña
   window.open(url, '_blank');
 };
@@ -39,7 +39,7 @@ const openWhatsApp = () => {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   /* La animación 'breathe' ahora controla la escala y la sombra */
   animation: breathe 2s ease-in-out infinite;
 }
@@ -47,7 +47,7 @@ const openWhatsApp = () => {
 .whatsapp-btn:hover {
   background-color: #1ebe57;
   /* Hacemos la escala del hover un poco más grande que la animación */
-  transform: scale(1.15); 
+  transform: scale(1.15);
   /* Pausamos la animación al hacer hover para que el escalado se sienta controlado */
   animation-play-state: paused;
 }
@@ -55,11 +55,14 @@ const openWhatsApp = () => {
 /* --- CAMBIO: Definición de la animación --- */
 /* Esta animación crea un efecto de "respiración" o pulso */
 @keyframes breathe {
+
   /* Estado inicial y final (normal) */
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: 0 6px 16px rgba(37, 211, 102, 0.5);
   }
+
   /* Estado intermedio (expansión máxima del pulso) */
   50% {
     transform: scale(1.05);
