@@ -22,9 +22,9 @@
 
       <!-- Columna 3: Contacto y redes -->
       <div class="footer-col">
-        <p><strong>Tel:</strong> </p>
-        <p><strong>Email:</strong> contacto@bravoasociados.com</p>
-        <p><strong>Dirección:</strong> Av. Principal 123, Durango, México</p>
+        <p><strong>Tel:</strong> 55 5604 9890</p>
+        <p><strong>Email:</strong> administracion@bravoyasoc.com</p>
+        <p><strong>Dirección:</strong> Río Pánuco 313, Durango, Dgo., 34120</p>
         <div class="footer-socials">
           <a href="https://facebook.com" target="_blank" aria-label="Facebook">
             <i class="bi bi-facebook"></i>
