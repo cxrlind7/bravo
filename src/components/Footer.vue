@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="footer-container">
-      
+
       <!-- Columna 1: Logo y derechos -->
       <div class="footer-col">
         <img src="/public/logobravo.png" alt="" class="footer-logo-img">
@@ -10,7 +10,7 @@
 
       <!-- Columna 2: Enlaces -->
       <div class="footer-col">
-         <nav class="footer-nav">
+        <nav class="footer-nav">
           <a href="#inicio" @click.prevent="scrollToSection('inicio')">Inicio</a>
           <a href="#about" @click.prevent="scrollToSection('about')">Nosotros</a>
           <a href="#services" @click.prevent="scrollToSection('services')">Servicios</a>
@@ -22,7 +22,7 @@
 
       <!-- Columna 3: Contacto y redes -->
       <div class="footer-col">
-        <p><strong>Tel:</strong> +52 618 123 4567</p>
+        <p><strong>Tel:</strong> </p>
         <p><strong>Email:</strong> contacto@bravoasociados.com</p>
         <p><strong>Dirección:</strong> Av. Principal 123, Durango, México</p>
         <div class="footer-socials">
@@ -65,7 +65,8 @@ const scrollToSection = (sectionId) => {
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 
 .footer {
-  background-color: #111; /* negro o gris muy oscuro */
+  background-color: #111;
+  /* negro o gris muy oscuro */
   color: #f1f1f1;
   padding: 1rem;
   font-size: 0.9rem;
@@ -119,7 +120,8 @@ const scrollToSection = (sectionId) => {
 
 .footer-nav a:hover,
 .footer-legal a:hover {
-  color: #AFAFAF; /* verde corporativo */
+  color: #AFAFAF;
+  /* verde corporativo */
 }
 
 .footer-legal {
@@ -134,17 +136,21 @@ const scrollToSection = (sectionId) => {
 
 .footer-socials a {
   color: #fff;
-  font-size: 1.4rem; /* tamaño de íconos */
+  font-size: 1.4rem;
+  /* tamaño de íconos */
   transition: color 0.3s;
 }
 
 .footer-socials a:hover {
   color: #AFAFAF;
 }
-.footer-logo-img {
-  width: 120px;   /* ajusta el ancho que quieras */
-  height: auto;   /* mantiene la proporción */
-  margin-bottom: 0.5rem; /* espacio debajo del logo */
-}
 
+.footer-logo-img {
+  width: 120px;
+  /* ajusta el ancho que quieras */
+  height: auto;
+  /* mantiene la proporción */
+  margin-bottom: 0.5rem;
+  /* espacio debajo del logo */
+}
 </style>
