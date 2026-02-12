@@ -22,7 +22,6 @@
 
       <!-- Columna 3: Contacto y redes -->
       <div class="footer-col">
-        <p><strong>Tel:</strong> 55 5604 9890</p>
         <p><strong>WhatsApp:</strong> 618 122 2244</p>
         <p><strong>Email:</strong> administracion@bravoyasoc.com</p>
         <p><strong>Dirección:</strong> Río Pánuco 313, Durango, Dgo., 34120</p>
